@@ -39,7 +39,7 @@ function [xk_estim_pos, Pxk_pos, wk_estim_pos, Pwk_pos] = dekf(yk, var_ruido_pro
   %initial estimates
   if (nargin == 3)
     xk_estim_pos(:,:,1) = zeros(K,1);
-    Pxk_pos(:,:,1) = 0*eye(K,K);
+    Pxk_pos(:,:,1) = 1*eye(K,K);
     wk_estim_pos(:,:,1) = 0.01*randn(total_sinapses,1);
     Pwk_pos(:,:,1) = 0.01*eye(total_sinapses,total_sinapses);;
   else
