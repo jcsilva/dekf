@@ -6,7 +6,7 @@ close all; clear all;
 randn("seed", 10);
 var_ruido_proc = 0.01;
 var_ruido_obs =0.1;
-T = [1:1026];
+T = [1:5001];
 y = sin(2*pi*1/50*T);
 yk = y + sqrt(var_ruido_obs) * randn(1,length(y));
 
@@ -14,10 +14,10 @@ yk = y + sqrt(var_ruido_obs) * randn(1,length(y));
 %DEKF
 
 shift = 64;
-window = 256;
+window = 5000;
 current = 1;
 x_estim = zeros(size(y));
-while (current + window < length(yk))
+while (current + window <= length(yk))
   chunk = yk(current:current+window-1);
   if (current == 1)
     [xk_estim_pos, Pxk_pos, wk_estim_pos, Pwk_pos]= dekf(chunk, var_ruido_proc, var_ruido_obs);
