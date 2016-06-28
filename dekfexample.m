@@ -16,20 +16,9 @@ yk = y + sqrt(var_ruido_obs) * randn(1,length(y));
 %%%%%%%%%%%%%%%%%%
 %DEKF
 
-shift = 2500;
-window = shift;
-current = 1;
-x_estim = zeros(size(y));
-while (current + window <= length(yk))
-  chunk = yk(current:current+window-1);
-  if (current == 1)
-    [xk_estim_pos, Pxk_pos, wk_estim_pos, Pwk_pos]= dekf(chunk, var_ruido_proc, var_ruido_obs);
-  else
-    [xk_estim_pos, Pxk_pos, wk_estim_pos, Pwk_pos]= dekf(chunk, var_ruido_proc, var_ruido_obs, xk_estim_pos(:,:,end), Pxk_pos(:,:,end), wk_estim_pos(:,:,end), Pwk_pos(:,:,end));
-  end
-  x_estim(current:current+window-1) = xk_estim_pos(1,1,:);
-  current = current + shift;
-end
+x_estim = zeros(size(yk));
+[xk_estim_pos, Pxk_pos, wk_estim_pos, Pwk_pos]= dekf(yk, var_ruido_proc, var_ruido_obs);
+x_estim(1:end) = xk_estim_pos(1,1,:);
 
 %%%%%%%%%%%%%%%%%%
 % Results: states and theirs estimates
